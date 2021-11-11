@@ -14,31 +14,11 @@
     },
     "mongo": {
         "host": "mongodb://host-not-set",
-        "name": "fotik"
+        "name": "openpay"
     },
-    "mssql": {
-        "user": "set-for-app",
-        "password": "set-for-app",
-        "database": "set-for-app",
-        "server": "set-for-app",
-        "port": 0
-    },
-    "media": {
-        "mediaDestination": "/public/",
-        "allowedTypes": [
-            "image/png",
-            "image/jpg",
-            "image/jpeg"
-        ],
-        "maxSize": 3000000,
-        "publicUrl": "<NOT_SET_IN_CONFIG>"
-    },
-    "ftp": {
-        "host": "host-not-set",
-        "user": "",
-        "pass": "",
-        "port": 21,
-        "path": "/assessments/",
-        "fileExt": ".xlsx"
+    "openpay": {
+        "id": "<set-id>",
+        "privateKey": "<set-private-key>",
+        "isProduction": false
     }
 }

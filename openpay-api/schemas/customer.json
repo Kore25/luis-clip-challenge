@@ -1,0 +1,65 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "/customer",
+    "description": "Customer",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+        },
+        "last_name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+        },
+        "email": {
+            "type": "string",
+            "format": "email"
+        },
+        "phone_number": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 12
+        },
+        "address": {
+            "type": "object",
+            "properties": {
+                "city": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32
+                },
+                "state": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 32
+                },
+                "line1": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                },
+                "line2": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                },
+                "postal_code": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 6
+                },
+                "country_code": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2
+                }
+            },
+            "required": ["city", "state", "postal_code", "country_code"]
+        }
+    },
+    "required": ["name", "last_name", "email", "phone_number", "address"]
+}

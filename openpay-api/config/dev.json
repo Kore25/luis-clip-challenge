@@ -3,7 +3,7 @@
         "port": 8080
     },
     "auth": {
-        "apiKey": "<set-apit-key>"
+        "apiKey": "LLBtFuKS4whp3Vg8dapMwRTEyrE92c6p"
     },
     "logger": {
         "console": { "level": "silly" },
@@ -15,5 +15,9 @@
     "mongo": {
         "host": "mongodb://localhost:27017/openpay",
         "name": "openpay"
+    },
+    "openpay": {
+        "id": "m4tbjldjfuolj5pl9dgb",
+        "privateKey": "sk_ba4eb5bafa444c0c8d8d97f77fbd0c77"
     }
 }
