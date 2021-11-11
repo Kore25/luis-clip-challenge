@@ -113,7 +113,7 @@ customersRes.charge = async(req, res, sendError) => {
             }
         }
         console.log('Data --->', charge)
-        const chargeRes = await openpay.createCharge(charge).catch((err) => { throw new RemoteError(err) })
+        const chargeRes = await openpay.createCharge(customer.openpayId, charge).catch((err) => { throw new RemoteError(err) })
         await mongo.customers().updateOne(criteria, { $push: { charges: chargeRes } }).catch((err) => { throw new DatabaseError(err) })
         return res.json(true)
     } catch (err) {

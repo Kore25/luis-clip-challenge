@@ -65,17 +65,17 @@ openpayRes.createCard = (customerId, card) => {
     })
 }
 
-openpayRes.createCharge = (charge) => {
+openpayRes.createCharge = (customerId, charge) => {
     return new Promise((resolve, reject) => {
         logger.verbose('(openpay,createCharge)', 'Create charge.')
-        open.charges.create(charge, function(err, body) {
+        open.customers.charges.create(customerId, charge, function(err, body) {
             if (err) {
                 logger.error('(openpay,createCharge)', 'Error: ', err.toString())
                 return reject(err)
             }
             logger.verbose('(openpay,createCharge)', 'Charge saved.')
             logger.debug(body)
-            return resolve(true)
+            return resolve(body)
         })
     })
 }
