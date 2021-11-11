@@ -1,0 +1,44 @@
+{
+    "application": {
+        "port": 15123
+    },
+    "auth": {
+        "apiKey": "<set-apit-key>"
+    },
+    "logger": {
+        "console": { "level": "silly" },
+        "files": [
+            { "level": "debug", "path": "./logs/", "name": "debug.log" },
+            { "level": "warn", "path": "./logs/", "name": "error.log" }
+        ]
+    },
+    "mongo": {
+        "host": "mongodb://host-not-set",
+        "name": "fotik"
+    },
+    "mssql": {
+        "user": "set-for-app",
+        "password": "set-for-app",
+        "database": "set-for-app",
+        "server": "set-for-app",
+        "port": 0
+    },
+    "media": {
+        "mediaDestination": "/public/",
+        "allowedTypes": [
+            "image/png",
+            "image/jpg",
+            "image/jpeg"
+        ],
+        "maxSize": 3000000,
+        "publicUrl": "<NOT_SET_IN_CONFIG>"
+    },
+    "ftp": {
+        "host": "host-not-set",
+        "user": "",
+        "pass": "",
+        "port": 21,
+        "path": "/assessments/",
+        "fileExt": ".xlsx"
+    }
+}

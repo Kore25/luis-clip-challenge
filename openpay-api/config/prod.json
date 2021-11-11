@@ -1,0 +1,19 @@
+{
+    "application": {
+        "port": 15123
+    },
+    "auth": {
+        "apiKey": "<set-apit-key>"
+    },
+    "logger": {
+        "console": { "level": "silly" },
+        "files": [
+            { "level": "debug", "path": "./logs/", "name": "debug.log" },
+            { "level": "warn", "path": "./logs/", "name": "error.log" }
+        ]
+    },
+    "mongo": {
+        "host": "mongodb://host-not-set",
+        "name": "openpay"
+    }
+}

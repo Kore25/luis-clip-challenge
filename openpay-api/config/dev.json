@@ -1,0 +1,19 @@
+{
+    "application": {
+        "port": 8080
+    },
+    "auth": {
+        "apiKey": "<set-apit-key>"
+    },
+    "logger": {
+        "console": { "level": "silly" },
+        "files": [
+            { "level": "debug", "path": "./logs/", "name": "debug.log" },
+            { "level": "warn", "path": "./logs/", "name": "error.log" }
+        ]
+    },
+    "mongo": {
+        "host": "mongodb://localhost:27017/openpay",
+        "name": "openpay"
+    }
+}
