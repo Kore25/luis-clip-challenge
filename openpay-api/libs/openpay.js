@@ -10,8 +10,8 @@ let open;
 (_ => {
     if (ID == null || ID == "<set-id>" || PRIVATE_KEY == null || PRIVATE_KEY == "<set-private-key>")
         throw new Error("check openpay settings in config")
-    logger.debug(ID, PRIVATE_KEY, config.isProduction)
     open = new Openpay(ID, PRIVATE_KEY, config.isProduction)
+        // open.setSandboxMode(true);
 })()
 
 openpayRes.createCustomer = (customer) => {
@@ -23,6 +23,44 @@ openpayRes.createCustomer = (customer) => {
             logger.verbose('(openpay,createCustomer)', 'Customer saved.')
             logger.debug(body.id)
             return resolve(body.id)
+        })
+    })
+}
+
+openpayRes.updateCustomer = (id, customer) => {
+    return new Promise((resolve, reject) => {
+        logger.verbose('(openpay,updateCustomer)', 'Update customer.')
+        open.customers.update(id, customer, function(err, body) {
+            if (err)
+                return reject(err)
+            logger.verbose('(openpay,updateCustomer)', 'Customer saved.')
+            return resolve(true)
+        })
+    })
+}
+
+openpayRes.deleteCustomer = (id) => {
+    return new Promise((resolve, reject) => {
+        logger.verbose('(openpay,deleteCustomer)', 'Delete customer.')
+        open.customers.delete(id, function(err, body) {
+            if (err)
+                return reject(err)
+            logger.verbose('(openpay,deleteCustomer)', 'Customer saved.')
+            return resolve(true)
+        })
+    })
+}
+
+openpayRes.createCard = (customerId, card) => {
+    return new Promise((resolve, reject) => {
+        logger.verbose('(openpay,createCart)', 'Create a new card to customer.')
+        console.log(customerId)
+        console.log(card);
+        open.customers.cards.create(customerId, card, function(err, body) {
+            if (err)
+                return reject(err)
+            logger.verbose('(openpay,createCart)', 'Card saved.')
+            return resolve(body)
         })
     })
 }

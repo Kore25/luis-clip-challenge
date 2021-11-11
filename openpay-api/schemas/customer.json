@@ -59,7 +59,38 @@
                 }
             },
             "required": ["city", "state", "postal_code", "country_code"]
+        },
+        "card": {
+            "type": "object",
+            "properties": {
+                "card_number": {
+                    "type": "string",
+                    "minLength": 16,
+                    "maxLength": 16
+                },
+                "holder_name": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64
+                },
+                "expiration_year": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2
+                },
+                "expiration_month": {
+                    "type": "string",
+                    "minLength": 2,
+                    "maxLength": 2
+                },
+                "cvv2": {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 3
+                }
+            },
+            "required": ["card_number", "holder_name", "expiration_year", "expiration_month", "cvv2"]
         }
     },
-    "required": ["name", "last_name", "email", "phone_number", "address"]
+    "required": ["name", "last_name", "email", "phone_number", "address", "card"]
 }

@@ -47,8 +47,11 @@ const _errorHandler = (err, req, res, next) => {
     router.get('/', application.status)
 
     router.post('/customers', auth.configApiKey, customers.add)
-    router.get('/customers', auth.configApiKey, customers.get)
+    router.get('/customers', auth.configApiKey, customers.getAll)
     router.put('/customers/:id', auth.configApiKey, customers.put)
+    router.get('/customers/:id', auth.configApiKey, customers.get)
+    router.delete('/customers/:id', auth.configApiKey, customers.delete)
+    router.post('/charges/:id', auth.configApiKey, customers.charge)
 
     app.use('/', router)
     app.use(_errorHandler)
