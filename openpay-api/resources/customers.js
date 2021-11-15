@@ -7,22 +7,33 @@ const openpay = require('../libs/openpay')
 const customersRes = module.exports
 let mongo
 
+/**
+ * Method to init class
+ * @return {object} customerRes
+ * @autor Luis Flores
+ */ 
 customersRes.init = (_mongo) => {
     mongo = _mongo
     return customersRes
 }
 
+/**
+ * Method to add a new customer
+ * @return {boolean} true
+ * @autor Luis Flores
+ */ 
 customersRes.add = async(req, res, sendError) => {
     logger.verbose('[customers,add]', 'Add new customer.')
     let data = req.body
     try {
         await validator.validate('customer', data).catch((err) => { throw new InputError(err) })
         const customer = await mongo.customers().countDocuments({ email: data.email, phone_number: data.phone_number }).catch((err) => { throw new DatabaseError(err) })
-        if (customer > 0) throw new EntityExistsError()
-        const card = data.card
-        delete data.card
+        if (customer > 0) throw new EntityExistsError()        
         data.openpayId = await openpay.createCustomer(data).catch((err) => { throw new RemoteError(err) })
-        data.cardData = await openpay.createCard(data.openpayId, card).catch((err) => { throw new RemoteError(err) })
+        if(data.card){            
+            delete data.card
+            data.cardData = await openpay.createCard(data.openpayId, card).catch((err) => { throw new RemoteError(err) })
+        }
         data.createdDate = moment().utc().toDate()
         data.updatedDate = moment().utc().toDate()
         await mongo.customers().insertOne(data).catch((err) => { throw new DatabaseError(err) })
@@ -34,6 +45,11 @@ customersRes.add = async(req, res, sendError) => {
     }
 }
 
+/**
+ * Method to update a customer
+ * @return {boolean} true
+ * @autor Luis Flores
+ */ 
 customersRes.put = async(req, res, sendError) => {
     logger.verbose('[customers,put]', 'Add new customer.')
     const id = req.params.id
@@ -53,6 +69,11 @@ customersRes.put = async(req, res, sendError) => {
     }
 }
 
+/**
+ * Method to delete a customer
+ * @return {boolean} true
+ * @autor Luis Flores
+ */ 
 customersRes.delete = async(req, res, sendError) => {
     logger.verbose('[customers,delete]', 'Add new customer.')
     const id = req.params.id
@@ -68,9 +89,15 @@ customersRes.delete = async(req, res, sendError) => {
     }
 }
 
+/**
+ * Method to get list a customer
+ * @return {array} object customers
+ * @autor Luis Flores
+ */ 
 customersRes.getAll = async(req, res, sendError) => {
     logger.verbose('[customers,getAll]', 'Get list customers.')
     const aggregate = [
+        { $project: {name: 1, last_name:1, email:1, phone_number: 1}},
         { $sort: { updatedDate: 1 } }
     ]
     logger.silly(aggregate)
@@ -78,11 +105,16 @@ customersRes.getAll = async(req, res, sendError) => {
     return res.json(customers)
 }
 
+/**
+ * Method to get a customer
+ * @return {object} customers
+ * @autor Luis Flores
+ */ 
 customersRes.get = async(req, res, sendError) => {
     logger.verbose('[customers,get]', 'Get customer by id.')
     const id = req.params.id
     try {
-        const customer = await mongo.customers().findOne({ _id: mongo.ObjectId(id) }).catch((err) => { throw new DatabaseError(err) })
+        const customer = await mongo.customers().findOne({ _id: mongo.ObjectId(id) }, {projection: {name: 1, last_name:1, email:1, phone_number: 1}}).catch((err) => { throw new DatabaseError(err) })
         if (!customer) throw new EntityNotExistsError()
         return res.json(customer)
     } catch (err) {
@@ -90,6 +122,11 @@ customersRes.get = async(req, res, sendError) => {
     }
 }
 
+/**
+ * Method to do a charge
+ * @return {boolean} true
+ * @autor Luis Flores
+ */ 
 customersRes.charge = async(req, res, sendError) => {
     logger.verbose('[customers,charge]', 'Create a charge to customer.')
     const id = req.params.id
@@ -111,8 +148,7 @@ customersRes.charge = async(req, res, sendError) => {
                 phone_number: customer.phone_number,
                 email: customer.email
             }
-        }
-        console.log('Data --->', charge)
+        }        
         const chargeRes = await openpay.createCharge(customer.openpayId, charge).catch((err) => { throw new RemoteError(err) })
         await mongo.customers().updateOne(criteria, { $push: { charges: chargeRes } }).catch((err) => { throw new DatabaseError(err) })
         return res.json(true)

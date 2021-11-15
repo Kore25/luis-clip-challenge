@@ -92,5 +92,5 @@
             "required": ["card_number", "holder_name", "expiration_year", "expiration_month", "cvv2"]
         }
     },
-    "required": ["name", "last_name", "email", "phone_number", "address", "card"]
+    "required": ["name", "last_name", "email", "phone_number"]
 }
